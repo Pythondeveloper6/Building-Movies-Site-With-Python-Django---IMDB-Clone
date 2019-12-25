@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block body %}
+		<main class="content">
+			<section class="centered">
+                {% if movie_category %}
+                    <h3>{{movie_category|title}} Movies</h3>
+                {% endif %}
+               
+                {% if movie_language %}
+                    <h3>{{movie_language|title}} Movies</h3>
+                {% endif %}
+
+				<div class="movies">
+                    {% for movie in object_list %}
+                        <div class="mov">
+                            <a href="{% url 'movies:movie_detail' movie.slug %}">
+                                <img src="{{movie.image.url}}">
+                                <h2 class="movietitle">{{movie.title}}</h2>
+                            </a>
+                        </div>
+                    {% empty %}
+                        <h3>There Are No Movies In This Category</h3>
+                    {% endfor %}
+
+                </div>
+                {% if is_paginated %}
+                    <nav class="pagination">
+                        <ul>
+                            {% if page_obj.has_previous %}
+                                <li><a href="?page={{ page_obj.previous_page_number }}">Prev</a></li>
+                            {% else %}
+                                <li class="disabled"></li>
+                            {% endif %}
+                            
+                            {% for pages in page_obj.paginator.page_range %}
+                              {% if page_obj.number == pages %}
+                                <li><a href="#">{{pages}}</a></li>
+                              {% else %}
+                                <li><a href="?page={{pages}}">{{pages}}</a></li>
+                              {% endif %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                                <li><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                            {% else %}
+                                <li class="disabled"></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+			</section>
+
+		</main>
+{% endblock body %}

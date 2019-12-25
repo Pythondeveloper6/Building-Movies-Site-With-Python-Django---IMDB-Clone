@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block body %}
+  
+
+		<main class="content">
+			<div class="single">
+
+				<section class="trailer">
+					<h3>Trailer</h3>
+					<div class="trailer_frame">
+						<iframe width="560" height="315" src="{{object.movie_trailer}}" frameborder="0" allowfullscreen></iframe>
+					</div>
+				</section>
+
+				<section class="movie">
+					<img src="{{object.image.url}}">
+					<ul>
+						<li>{{object}}</li>
+						<li>{{object.decription}}</li>
+						<li><a href="genre.html">Adventure</a>, <a href="genre.html">Drama</a>, <a href="genre.html">Romance</a></li>
+						<li><a href="">{{object.cast}}</a></li>
+						<li>{{object.views_count}} Views</li>
+					</ul>
+				</section>
+				<section class="links">
+					<h3>Links</h3>
+					<ul class="dlinks">
+						<li><a>Download</a></li>
+						
+						{% for link in links  %}
+							{% if link.type == 'D' %}
+							<li><a href="{{link.link}}">link{{forloop.counter}}</a></li>
+							{% endif %}
+						{% endfor %}
+							
+						
+					</ul>
+					<ul class="wlinks">
+						<li><a>Watch</a></li>
+						{% for link in links  %}
+							{% if link.type == 'W' %}
+							<li><a href="{{link.link}}">link{{forloop.counter}}</a></li>
+							{% endif %}
+						{% endfor %}
+
+					</ul>
+				</section>
+
+				<section class="related">
+					<h3>Related movies</h3>
+					
+					{% for movie in related_movies %}
+						<div class="relatemovie">
+							<a href="{% url 'movies:movie_detail' movie.slug %}"><img src="{{movie.image.url}}"></a>
+							<a href="{% url 'movies:movie_detail' movie.slug %}"><span class="relatedname">{{movie.title}}</span></a>
+						</div>
+					{% endfor %}
+
+				</section>
+
+
+			</div>
+		</main>
+
+{% endblock body %}
